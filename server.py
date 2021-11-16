@@ -44,8 +44,6 @@ def manageClients(connectionSocket, addr):
                 if msgList[2] in userNameToAddr:
                     sendPrivateMessage(
                         msgList, connectedClients[userNameToAddr[msgList[2]]])
-                else:
-                    sendToAllClients(msgForAll.encode(), connectionSocket)
             else:
                 sendToAllClients(msgForAll.encode(), connectionSocket)
         except:
