@@ -1,16 +1,20 @@
+# Importing required libraries
 import socket
 import threading
 
+# Setting the required values for the socket
 serverPort = 1234
 serverAddress = socket.gethostbyname(socket.gethostname())
 serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 serverSocket.bind((serverAddress, serverPort))
 serverSocket.listen()
 
+# Python dictionaries for storing username and their corresponding sockets and addresses
 addrToUserName = {}
 userNameToAddr = {}
 connectedClients = {}
 
+# Keeping the constant messages seperately to modify them whenever need
 CONST_WELCOME_MESSAGE = "Welcome to the chatroom, to continue enter your username: "
 CONST_OPTIONS_MESSAGE = "You are added to the chatroom. Messages you send is broadcasted to other users." 
 CONST_OPTIONS_MESSAGE +="\nTo send a private message use the following format: /private <username> <message>"
@@ -18,6 +22,7 @@ CONST_OPTIONS_MESSAGE +="\nTo send messages in different colors, use the command
 CONST_OPTIONS_MESSAGE +="\nTo send a private message in different colors, use the command: /private <username> /color <colorname> <message>"
 CONST_OPTIONS_MESSAGE +="\nTo leave the chat, use the command: /leave"
 
+# This function will make a prompt in the server terminal asking the admin if the requested client should be allowed to the chatroom
 def isUserAllowed(connectionSocket, userName):
     while True:
         inputCommand = input(
@@ -32,6 +37,7 @@ def isUserAllowed(connectionSocket, userName):
         print(f'Invalid Command \n')
 
 
+# This function will broadcast the given message to all the users other than sender
 def sendToAllClients(message, senderConnSocket):
     
     for addr in connectedClients:
@@ -40,11 +46,13 @@ def sendToAllClients(message, senderConnSocket):
             connectedClients[addr].send(message)
 
 
+# This function allows the user to send private messages
 def sendPrivateMessage(msgList, connectionSocket):
     message = msgList[0] + " " + ' '.join(msgList[3:])
     connectionSocket.send(message.encode())
 
 
+# This function will take care of the messages sent by the seperate clients
 def manageClients(connectionSocket, addr):
     while True:
         try:
@@ -71,6 +79,7 @@ def manageClients(connectionSocket, addr):
             break
 
 
+# This function will start the server, interacts with the users requested to join and decide whether to allow or reject them.
 def startServer():
     while True:
         connectionSocket, addr = serverSocket.accept()

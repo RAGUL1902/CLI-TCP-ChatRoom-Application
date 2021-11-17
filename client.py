@@ -1,14 +1,15 @@
+# Importing the required libraries
 import socket
 import threading
 from colorama import Fore, Back, Style
 
-
+# Setting up the required things for the socket
 serverAddress = socket.gethostbyname(socket.gethostname())
 serverPort = 1234
 clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 clientSocket.connect((serverAddress, serverPort))
 
-
+# Fucntion to analyse the incoming msg and print in the respective color
 def printMessage(message):
     
     msgList = message.split()
@@ -46,7 +47,7 @@ def printMessage(message):
         print(message)
         return
 
-
+# Fucntion to receive the messages from the server, it is made to run in a seprate thread
 def receiveMessage():
     while True:
         try:
@@ -58,7 +59,7 @@ def receiveMessage():
             return
 
 
-
+# Function to send the inputed msg by te client to the server
 def sendMessage():
     while True:
         try:
@@ -66,13 +67,14 @@ def sendMessage():
 
             if("/leave" == (msgForServer.split())[0]):
                 clientSocket.close()
-                
+
             clientSocket.send(msgForServer.encode())
         except:
             clientSocket.close()
             return
 
 
+# Starting two seperate threads for sending and receiving messages
 receiveMessageThread = threading.Thread(target=receiveMessage)
 receiveMessageThread.start()
 
