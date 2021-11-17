@@ -53,7 +53,7 @@ def receiveMessage():
             msgFromServer = clientSocket.recv(1024).decode()
             # print(msgFromServer)
             printMessage(msgFromServer)
-        except KeyboardInterrupt:
+        except:
             clientSocket.close()
             return
 
@@ -63,8 +63,12 @@ def sendMessage():
     while True:
         try:
             msgForServer = input()
+
+            if("/leave" == (msgForServer.split())[0]):
+                clientSocket.close()
+                
             clientSocket.send(msgForServer.encode())
-        except KeyboardInterrupt:
+        except:
             clientSocket.close()
             return
 
