@@ -19,6 +19,7 @@ CONST_WELCOME_MESSAGE = "Welcome to the chatroom, to continue enter your usernam
 CONST_OPTIONS_MESSAGE = "You are added to the chatroom. Messages you send is broadcasted to other users." 
 CONST_OPTIONS_MESSAGE +="\nTo send a private message use the following format: /private <username> <message>"
 CONST_OPTIONS_MESSAGE +="\nTo send messages in different colors, use the command: /color <colorname> <message>"
+CONST_OPTIONS_MESSAGE +="\nAvailable colors are red, green, yellow, blue, megenta, cyan, white"
 CONST_OPTIONS_MESSAGE +="\nTo send a private message in different colors, use the command: /private <username> /color <colorname> <message>"
 CONST_OPTIONS_MESSAGE +="\nTo leave the chat, use the command: /leave"
 
